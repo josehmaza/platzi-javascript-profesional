@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Uso del this</title>
+</head>
+<body>
+    <button id="btn-1">Uso this (funcion controladora de evento)</button>
+    <button id="btn-2">this (event-loop)</button>
+    <script>
+        // this en el scope global
+
+        // (el objeto es window)
+        console.log(`this en el scope global es: ${this}`)
+
+
+
+
+        // this en el scope de una función  
+        
+        // (es el dueño de la función (quien la invoca), en este caso window)
+        function whoIsThis() {
+            console.log(`this en el scope de una función es: ${this}`)
+        }
+        whoIsThis()
+
+
+        function whoIsThisInner() {
+            function inner() {
+                console.log(`this en el scope de una función interna es: ${this}`)
+            }
+            inner()
+        }
+        whoIsThisInner()
+
+
+
+
+        // this en el scope de una función con modo estricto activado
+        
+        // evita la propagación de this desde el exterior
+        // por lo que this será undefined (es decir no se manda o empaqueta)
+        // ni de fuera hacia adentro, como dentro hasta mas adentro
+        function whoIsThisStrictMode() {
+            // el modo estricto por lo general es declarado al inicio del archivo, su función es evitar que se haga uso de variables no declaradas
+            'use strict'
+            console.log(`this en el scope de una función en modo estricto es ${this}`)
+
+            function inner() {
+                console.log(`this en el scope de una función interna en modo estricto es ${this}`)
+            }
+            inner()
+        }
+        whoIsThisStrictMode()
+
+        const objetito = {
+            nombre: 'Mongo',
+            tipo: 'Perro'
+        }
+
+        // Sin embargo, yo puedo indicar explicitamente a una función cual será el contexto de this que deberá tomar en cuenta.
+        whoIsThisStrictMode.call(objetito)
+
+
+
+
+        // this en el contexto de un objeto
+        
+        // this será el dueño de la función, es decir quien la invoca, en este caso el propio objeto
+        const persona = {
+            nombre: 'Alejandro',
+            saludar: function() {
+                console.log(`Hola, me llamo ${this.nombre}`)
+            }
+        }
+        // saludar se invoca a partir del objeto persona (this = objeto persona)
+        persona.saludar()
+
+
+
+
+
+        // this cuando sacamos a una funcion de un objeto
+        
+        // se pierde el contexto del this, puesto que la referencia se invoca desde un contexto diferente al objeto
+        const accion = persona.saludar
+        accion()
+       
+
+
+
+
+
+        // this en el contexto de una clase
+
+        // En este caso this es el propio objeto
+        function Person(nombre) {
+            this.nombre = nombre
+        }
+
+        Person.prototype.saludar = function() {
+            console.log(`Hola ${this.nombre}`)
+        }
+
+        const mongo = new Person('Hernan')
+        mongo.saludar()
+        console.log('===')
+        // SI guardo la referencia y luego la ejecuto, entonces this se convertira wn window
+        const saludo = mongo.saludar
+        saludo()
+
+
+
+        // this en el contexto de una función controladora de evento
+
+        // this es el propio elemento que activo el evento
+        const boton = document.querySelector('#btn-1')
+        boton.addEventListener('click', function(event) {
+            console.log(`this en el scope de una función controlador de evento es ${this}`)
+        })
+
+
+
+
+
+        // this en scope de una función que procesa el event loop (asincronas)
+
+        // los procesos que le son delegados al navegador, this es el propio navegador, es decir window
+        const boton2 = document.querySelector('#btn-2')
+        boton2.addEventListener('click', function(event) {
+            console.log(`this el el controlador de evento es ${this}`)
+
+            setTimeout(function() {
+                // Aquí this salta de un contexto a otro
+                console.log(`this en una función asincrona, que le es delegada al navegador ${this}`)
+            }, 1000)
+        })
+    </script>
+</body>
+</html>
