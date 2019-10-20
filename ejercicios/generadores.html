@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generator</title>
+</head>
+
+<body>
+    <h1>Generadores</h1>
+    <script>
+        function* simpleGenerator(){
+            console.log('START')
+            yield 1
+            yield 2
+            yield 3
+            console.log('END')
+        }
+        const gen = simpleGenerator()
+        let value= gen.next()
+        console.log('el values es ',value)
+        gen.next()
+
+        function* idMaker(){
+            let id = 1
+            while(true){
+                yield id
+                id+=1;
+            }
+        }
+
+        const genIdMaker = idMaker()
+        let nextId = genIdMaker.next()
+        nextId = genIdMaker.next()
+        console.log(nextId)
+
+        function* idMakerWithReset(){
+            let id = 1
+            while(true){
+                // obtener el valor que se l apasa al llamar a next
+                let reset = yield id
+                if(reset){
+                       id =1;
+                }else{
+                    id+=1;
+                }
+            }
+        }
+
+        const genIdWithReset = idMakerWithReset()
+        let nextidr = genIdWithReset.next()
+        console.log(' ==> next id es ', nextidr)
+
+        nextidr = genIdWithReset.next()
+        console.log('next id es ', nextidr)
+
+        nextidr = genIdWithReset.next()
+        console.log('next id es ', nextidr)
+
+        nextidr = genIdWithReset.next(true)
+        console.log('reiniciado es id es ', nextidr)
+
+        //// FIBONACCI eficiente
+        function* fibonacci(){
+            let a =1
+            let b = 1
+            while(true){
+                const nextNumber = a+b
+                a=b
+                b= nextNumber
+                yield nextNumber
+            }
+        }
+        console.log('FIBONACCI')
+        const genFibonacci = fibonacci()
+        console.log(genFibonacci.next())
+        console.log(genFibonacci.next())
+        console.log(genFibonacci.next())
+        console.log(genFibonacci.next())
+        console.log(genFibonacci.next())
+        console.log(genFibonacci.next())
+
+
+    </script>
+</body>
+
+</html>
