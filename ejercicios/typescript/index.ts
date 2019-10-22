@@ -42,4 +42,27 @@ function add(a: number, b: number): number {
     return a+b
 }
 
-const sum = add(a, b)
+const sum = add(4, 7)
+
+//Tipando retorno de funciones
+function createAdder(a: number): (number) => number {
+    return function(b: number){
+        return a+b
+    }
+}
+
+const addFour = createAdder(4)
+const fourPlus6 = addFour(3)
+
+
+function fullName(firstName: string, lastName?: string): string{
+    return `${firstName} ${lastName}`
+}
+
+const richard = fullName('Richard') //  Richard undefined
+
+function fullNameAutoAssign(firstName: string, lastName: string= 'Maza'): string{
+    return `${firstName} ${lastName}`
+}
+
+const hernan = fullNameAutoAssign('Hernan') // Hernan Maza
