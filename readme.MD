@@ -1,3 +1,8 @@
+install
+npm install -D  parcel-bundler
+
+remove
+npm rm live-server
 Resources
 
 Tokens https://esprima.org/
