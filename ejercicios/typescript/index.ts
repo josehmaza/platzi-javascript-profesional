@@ -66,3 +66,37 @@ function fullNameAutoAssign(firstName: string, lastName: string= 'Maza'): string
 }
 
 const hernan = fullNameAutoAssign('Hernan') // Hernan Maza
+
+
+//========Interfaces =============
+//Es como siyo quiero un modelo de un Object simple, no es necesario crearlo como clase para darle tipado si no
+//simplemente declrarlo como inteface
+enum ColorRect {
+    Rojo= 'rojo',
+    Verde= 'verde',
+}
+interface Rectangulo {
+    ancho: number
+    alto: number
+    color?: ColorRect // es opcional
+}
+
+let rectangulo: Rectangulo ={
+    ancho:4,
+    alto: 6,
+    color: ColorRect.Rojo
+}
+function area(r: Rectangulo){
+    return r.alto  * r.ancho
+}
+
+const areaRect = area(rectangulo)
+console.log(areaRect)
+
+
+// OJo que se debe usar functino, si se usa arrow functions se solapa el this
+rectangulo.toString = function() {
+    return this.color ? `Un rectangulo ${this.color}` : 'Un rectangulo sin color'
+}
+
+console.log(rectangulo.toString())
