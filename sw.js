@@ -19,14 +19,14 @@ async function precache(){
     console.log('precache')
     const cache = await caches.open(VERSION)
     return cache.addAll([
-        '/',
+        /*'/',
         '/index.html',
         '/assets/script.js',
         '/assets/MediaPlayer.js',
         '/assets/plugins/AutoPlay.js',
-        '/assets/plugins/AutoPause.js',
+        '/assets/plugins/AutoPause.ts',
         '/assets/styles.css',
-        '/assets/suits.mp4',
+        '/assets/suits.mp4',*/
     ])
 }
 
